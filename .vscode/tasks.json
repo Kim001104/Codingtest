@@ -2,30 +2,46 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "make build dir (per-category)",
+      "label": "make bin dir",
       "type": "shell",
       "command": "powershell",
       "args": [
         "-NoProfile",
         "-Command",
-        "New-Item -ItemType Directory -Force -Path '${workspaceFolder}/${relativeFileDirname}/../build' | Out-Null"
+        "New-Item -ItemType Directory -Force -Path '${workspaceFolder}/bin' | Out-Null"
       ]
     },
     {
-      "label": "build C (per-category)",
+      "label": "build active C file (MinGW)",
       "type": "shell",
-      "command": "C:/mingw64/bin/gcc.exe",
+      "command": "C:\\mingw64\\bin\\gcc.exe",
       "args": [
-        "-fdiagnostics-color=always",
+        "-std=c11",
         "-g",
-        "${file}",
+        "${file}",                                      // 현재 열려있는 소스
         "-o",
-        "${workspaceFolder}/${relativeFileDirname}/../build/${fileBasenameNoExtension}.exe"
+        "${workspaceFolder}/bin/${fileBasenameNoExtension}.exe"
       ],
       "options": { "cwd": "${workspaceFolder}" },
       "problemMatcher": ["$gcc"],
       "group": { "kind": "build", "isDefault": true },
-      "dependsOn": "make build dir (per-category)"
+      "dependsOn": "make bin dir"
+    },
+    {
+      "label": "build active C++ file (MinGW)",
+      "type": "shell",
+      "command": "C:\\mingw64\\bin\\g++.exe",
+      "args": [
+        "-std=c++17",
+        "-g",
+        "${file}",
+        "-o",
+        "${workspaceFolder}/bin/${fileBasenameNoExtension}.exe"
+      ],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+      "group": "build",
+      "dependsOn": "make bin dir"
     }
   ]
 }
