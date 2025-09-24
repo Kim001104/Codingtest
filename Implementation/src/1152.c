@@ -18,9 +18,22 @@ int main() {
         첫째 줄에 단어의 개수를 출력한다.
     */
 
-    char str[101];
-    scanf("%s",str);
-    printf("%s",str);
+    char str[100001];
+    scanf("%[^\n]s", str);
+
+    int len = strlen(str);
+    int cnt = 0;
+
+
+    for(int i=0; i < len; i++) {    //단어의 시작(상태 변화 => 첫번째 글자(공백이 아니라면, 단어) 두번째 글자(현재 글자가 공백이고 다음 글자가 공백x))
+        if ((i == 0 && str[i] != ' ') || (i > 0 && str[i] != ' ' && str[i-1] == ' ')){
+            cnt++;
+        }   
+    }
+        printf("%d",cnt);
+
 
     return 0;
 }
+
+
